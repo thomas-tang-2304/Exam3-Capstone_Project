@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import Employees.Employee;
@@ -16,28 +15,26 @@ public class ConnectionTree {
         this.root = root;
     }
 
-    public List<List<ConnectionTreeNode>> printNodes(Employee target) {
+    public List<List<ConnectionTreeNode>> relativeCollectionList(Employee target) {
         List<List<ConnectionTreeNode>> paths = new ArrayList<>();
-        print(root, 0, paths);
+        relativeCollectionListRecursion(root, 0, paths);
         return paths;
     }   
 
-    private void print(ConnectionTreeNode node, int depth, List<List<ConnectionTreeNode>> paths ) {
-        if (node != null){
-            List<ConnectionTreeNode> path = new ArrayList<>();
-            
-            ConnectionTreeNode currentParent = node.getParentNode();
-            while (currentParent != null) {
-                path.add(currentParent);
-                currentParent = currentParent.getParentNode();
-            }
-            if (!paths.contains(path)){
-                paths.add(path);
-            }
+    private void relativeCollectionListRecursion(ConnectionTreeNode node, int depth, List<List<ConnectionTreeNode>> paths) {
+        List<ConnectionTreeNode> path = new ArrayList<>();
+        path.add(node);
+        ConnectionTreeNode currentParent = node.getParentNode();
+        while (currentParent != null) {
+            path.add(currentParent);
+            currentParent = currentParent.getParentNode();
+        }
+        if (!paths.contains(path)){
+            paths.add(path);
+        }
 
-            for (ConnectionTreeNode e : node.getConnectionTreeNodes()) {
-                print(e, depth + 1, paths);
-            }
+        for (ConnectionTreeNode e : node.getConnectionTreeNodes()) {
+            relativeCollectionListRecursion(e, depth + 1, paths);
         }
         
     }
@@ -57,18 +54,19 @@ public class ConnectionTree {
            
             for (Relation r : relationships) {
                 Employee currentEmp = node.getEmployeeNode();
-                ConnectionTreeNode newNode = new ConnectionTreeNode(r.connectsWith(currentEmp) , r.getWeight());
-                if (r.hasContainedEmployee(currentEmp) && !blockList.contains(newNode.getEmployeeNode())) {
-                    newNode.setParentEmployeeNode(node);
-                    node.addConnection(newNode);
-                    blockList.add(node.getEmployeeNode());
-                    add(newNode, depth + 1, relationships);
+                if (r.hasContainedEmployee(currentEmp)){
+                    
+                    ConnectionTreeNode newNode = new ConnectionTreeNode(r.connectsWith(currentEmp) , r.getWeight());
+                    if (!blockList.contains(newNode.getEmployeeNode())) {
+                        newNode.setParentEmployeeNode(node);
+                        node.addConnection(newNode);
+                        blockList.add(node.getEmployeeNode());
+                        add(newNode, depth + 1, relationships);
+                    }
                 }
             }
         } 
-        
-        // if (node.getConnectionTreeNodes().size() == 0) {
-        //     System.out.println("Finished");
-        // }  
+     
+
     }
 }

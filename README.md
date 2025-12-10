@@ -15,3 +15,5 @@ This Program gives us a visually graph of relationships between connection with 
 - Listing all employees: O(n).
 - Looking for an employee in a company: O(1), worst case O(n) by using hash map
 - Looking up for employees according to hierachy in the company: O(n log n) using tree implementation.
+
+

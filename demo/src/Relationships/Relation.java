@@ -41,10 +41,13 @@ public class Relation {
     }
 
     public Employee connectsWith(Employee e) {
+        Employee result = null;
         for (Employee emp : connection) {
-            if (!emp.getEmployeeId().equals(e.getEmployeeId())) return emp;
+            if (!(e.getEmployeeId().equals(emp.getEmployeeId()))) {
+                result = emp;
+            };
         }
-        return null;
+        return result;
     }
 
 }
