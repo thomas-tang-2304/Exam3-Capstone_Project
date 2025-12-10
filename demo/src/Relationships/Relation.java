@@ -33,4 +33,18 @@ public class Relation {
         return connection;
     }
 
+    public boolean hasContainedEmployee(Employee e) {
+        for (Employee emp : connection) {
+            if (emp.getEmployeeId().equals(e.getEmployeeId())) return true;
+        }
+        return false;
+    }
+
+    public Employee connectsWith(Employee e) {
+        for (Employee emp : connection) {
+            if (!emp.getEmployeeId().equals(e.getEmployeeId())) return emp;
+        }
+        return null;
+    }
+
 }
