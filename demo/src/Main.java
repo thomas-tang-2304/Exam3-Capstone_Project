@@ -13,13 +13,13 @@ import Relationships.ExtendedNetwork;
 import Relationships.Relation;
 import Relationships.SecondConnection;
 
-public class ConnectionDriver {
+public class Main {
     public static Employee inputInitialEmployee(Scanner scanner, List<Employee> employees) {
         try {
             int i = 0;
             System.out.println("Enter the initial Employee: ");
             for (Employee e : employees) {
-                System.out.println(i + ": ");
+                System.out.println(i + ": ======================================================================================");
                 e.getDetails();
                 i++;
             }
@@ -44,7 +44,7 @@ public class ConnectionDriver {
             int i = 0;
             System.out.println("Enter the target Employee: ");
             for (Employee e : employees) {
-                System.out.println(i + ": ");
+                System.out.println(i + ": ======================================================================================");
                 e.getDetails();
                 i++;
             }
@@ -95,7 +95,7 @@ public class ConnectionDriver {
         // DirectConnection has weight = 1, directly connection class
         // SecondConnection has weight = 2
         // ExtendedNetwork has weight = 3, largest weight 
-        relationships.add(new ExtendedNetwork("Alumni", dev4, engineer));
+        // relationships.add(new ExtendedNetwork("Alumni", dev4, engineer));
         relationships.add(new DirectConnection("co-workers", mgr, dev2));
         relationships.add(new DirectConnection("friends", dev, dev2));
         relationships.add(new ExtendedNetwork("connected via LinkedIn", engineer, dev));
@@ -119,6 +119,8 @@ public class ConnectionDriver {
 
         // Populating relationships through the relationships List predefined above, resulted a tree map /
         tree.addConnectionMap(relationships);
+
+       
 
         // fastestConnection is the list which stores a employees path associated with connection weights
         List<ConnectionTreeNode> fastestConnection = new ArrayList<>();
@@ -152,6 +154,7 @@ public class ConnectionDriver {
             // In case we can't look for the connection
             System.out.println("No connection found between " + initial.getEmployeeNode().getEmployeeId() + " and " + target.getEmployeeId());
         }else {
+            
             // Print out fastest route path and total weight
             System.out.print("Fastest route: ");
             for (int i = fastestConnection.size() - 1; i >= 0; i--) {
@@ -163,7 +166,21 @@ public class ConnectionDriver {
             }
             System.out.println();
             System.out.println("Min total Weight: " + min);
+            
         }
+        if (target.getEmployeeId() == "HR012" && initial.getEmployeeNode().getEmployeeId() == "EGN001") {
+            // Unit test at scenario of EGN001 connect with target of HR012, result in list of possible all routes map
+            System.out.println(GraphTest.assertTrue(fastestConnection.reversed(), min, initial.getEmployeeNode(), target) ? "== PASSED ==" : "-- FAILED --");
+        } 
+        if (target.getEmployeeId() == "SE032" && initial.getEmployeeNode().getEmployeeId() == "HR012") {
+            System.out.println(GraphTest.assertTrue(fastestConnection.reversed(), min, initial.getEmployeeNode(), target) ? "== PASSED ==" : "-- FAILED --");
+        }
+        if (target.getEmployeeId() == "SE1342" && initial.getEmployeeNode().getEmployeeId() == "EGN001") {
+            System.out.println(GraphTest.assertTrue(fastestConnection.reversed(), min, initial.getEmployeeNode(), target) ? "== PASSED ==" : "-- FAILED --");
+        } 
+        if (target.getEmployeeId() == "M001" && initial.getEmployeeNode().getEmployeeId() == "SE001") {
+            System.out.println(GraphTest.assertTrue(fastestConnection.reversed(), min, initial.getEmployeeNode(), target) ? "== PASSED ==" : "-- FAILED --");
+        } 
         scanner.close();
     }
 }
